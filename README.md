@@ -1,6 +1,7 @@
 # Walmart_Sales_DataAnalysis
 
-![walmart_project_with_gradient_bg](https://github.com/user-attachments/assets/ba30c099-281b-4713-b92e-e7e8cc5112e1)
+![walmart_project](https://github.com/user-attachments/assets/ff3c31d9-65bf-4aab-9479-261b74da60ad)
+
 
 This project offers a comprehensive solution to analyze Walmart sales data using Python and SQL. It is designed to address key business questions and extract actionable insights through structured data analysis, cleaning, and querying techniques. The project is an excellent opportunity for data analysts to enhance their expertise in Python and SQL, including working with real-world data pipelines and advanced queries.
 
