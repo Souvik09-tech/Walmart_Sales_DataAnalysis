@@ -52,8 +52,21 @@ This project offers a comprehensive solution to analyze Walmart sales data using
 ### 9. SQL Analysis: Complex Queries and Business Problem Solving
    - **Business Problem-Solving**: Write and execute complex SQL queries to answer critical business questions, such as:
      - Revenue trends across branches and categories.
-     - Identifying best-selling product categories.
-     - Indentifying the most frequently used payment method in each branch
+     - Identifying total profit for each category, ranked from highest to lowest?
+```
+SELECT 
+    category,
+    ROUND(SUM(total), 2) AS total_revenue,
+    ROUND(SUM(unit_price * quantity * profit_margin),
+            2) AS total_profit
+FROM
+    walmart_sales
+GROUP BY category
+ORDER BY total_profit DESC;
+```
+ **From this we come to know that: **Fashion accessories** are the most profitable**
+ 
+ - Indentifying the most frequently used payment method in each branch
 ```
 select
   *
@@ -68,8 +81,46 @@ from
     group by branch, payment_method) as tab
     where ranking = 1;
 ```
-  - Analyzing peak sales periods and customer buying patterns.
-  - Profit margin analysis by branch and category.
+  - Identify the 5 branches with the highest revenue decrease ratio from last year to current year (e.g., 2022 to 2023)
+
+```
+with revenue_2022
+as 
+(SELECT 
+    branch, SUM(total) AS total_revenue
+FROM
+    walmart_sales
+WHERE
+    YEAR(STR_TO_DATE(date, '%d/%m/%y')) = 2022
+GROUP BY branch),
+
+revenue_2023
+as 
+(SELECT 
+    branch, SUM(total) AS total_revenue
+FROM
+    walmart_sales
+WHERE
+    YEAR(STR_TO_DATE(date, '%d/%m/%y')) = 2023
+GROUP BY branch)
+
+SELECT 
+    r2022.branch,
+    r2022.total_revenue AS last_yr_revenue,
+    r2023.total_revenue AS current_yr_revenue,
+    ROUND(((r2022.total_revenue - r2023.total_revenue) / r2022.total_revenue) * 100,
+            2) AS revenue_decreased_ratio
+FROM
+    revenue_2022 AS r2022
+        JOIN
+    revenue_2023 AS r2023 ON r2022.branch = r2023.branch
+WHERE
+    r2022.total_revenue > r2023.total_revenue
+ORDER BY revenue_decreased_ratio DESC
+LIMIT 5;
+```
+** || From here we could see WALM045, WALM047, WALM098, WALM033 and WALM081 are the brances with highest revenue drop than the previous year||**
+ 
   - **Documentation**: Keep clear notes of each query's objective, approach, and results.
 
 ---
